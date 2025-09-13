@@ -1,7 +1,3 @@
-Of course. Here is a comprehensive `README.md` for your GitHub repository. You can copy and paste this directly into a `README.md` file in your project's root directory.
-
------
-
 # Aura: The Climate Resilience Hub 🌦️
 
 Aura is a mobile-first Progressive Web App (PWA) designed to empower communities to prepare for, respond to, and recover from climate-related disasters. With a focus on offline accessibility, Aura ensures that critical information is available even when network infrastructure fails, providing a vital lifeline for vulnerable populations during emergencies.
