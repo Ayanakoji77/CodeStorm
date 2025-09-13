@@ -1,5 +1,5 @@
 // api.js - Enhanced API functions with better error handling
-const API_BASE_URL = 'http://127.0.0.1:5000/api';
+const API_BASE_URL = 'https://codestorm-backend.onrender.com/api';
 
 // Generic fetch function with enhanced error handling
 async function fetchFromAPI(endpoint, options = {}) {
