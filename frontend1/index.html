@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaAid - Climate Resilience Platform</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans">
+    <!-- Header -->
+    <header class="bg-slate-800 shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-leaf text-emerald-400 text-2xl"></i>
+                    <h1 class="text-2xl font-bold text-slate-100">ClimaAid</h1>
+                </div>
+                <button id="menuBtn" class="lg:hidden p-2 rounded-lg hover:bg-slate-700 transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar bg-slate-800 text-slate-100">
+        <div class="p-4 border-b border-slate-700">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Navigation</h2>
+                <button id="closeBtn" class="p-2 hover:bg-slate-700 rounded-lg transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <ul class="py-4">
+            <li>
+                <a href="#" class="page-link flex items-center px-4 py-3 hover:bg-slate-700 transition" data-page="dashboard">
+                    <i class="fas fa-home mr-3 text-emerald-400"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#" class="page-link flex items-center px-4 py-3 hover:bg-slate-700 transition" data-page="prepare">
+                    <i class="fas fa-shield-alt mr-3 text-blue-400"></i>
+                    Prepare
+                </a>
+            </li>
+            <li>
+                <a href="#" class="page-link flex items-center px-4 py-3 hover:bg-slate-700 transition" data-page="respond">
+                    <i class="fas fa-exclamation-triangle mr-3 text-yellow-400"></i>
+                    Respond
+                </a>
+            </li>
+            <li>
+                <a href="#" class="page-link flex items-center px-4 py-3 hover:bg-slate-700 transition" data-page="recovery">
+                    <i class="fas fa-heart mr-3 text-red-400"></i>
+                    Recovery
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto px-4 py-6 max-w-7xl">
+        
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-100 mb-2">Climate Resilience Dashboard</h2>
+                <p class="text-slate-400">Real-time climate alerts and emergency resources</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- News Alerts -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold text-slate-100 flex items-center">
+                            <i class="fa-solid fa-newspaper mr-2 text-yellow-400"></i>
+                            Recent Climate Alerts
+                        </h3>
+                    </div>
+                    
+                    <!-- Location-specific news -->
+                    <div class="mb-6">
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="locationInput" placeholder="Enter location (e.g., Mumbai, Delhi)" 
+                                   class="flex-1 px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                            <button id="updateLocationBtn" 
+                                    class="px-4 py-2 bg-emerald-500 text-slate-900 rounded-lg hover:bg-emerald-600 transition font-medium">
+                                <i class="fa-solid fa-search"></i>
+                            </button>
+                        </div>
+                        <ul id="location-news-container" class="space-y-2 text-sm"></ul>
+                    </div>
+
+                    <ul id="news-container" class="space-y-3"></ul>
+                </div>
+
+                <!-- Emergency Shelters Map -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-4 flex items-center">
+                        <i class="fa-solid fa-map-location-dot mr-2 text-emerald-400"></i>
+                        Emergency Shelters
+                    </h3>
+                    <div id="map" class="rounded-lg overflow-hidden"></div>
+                    <div class="mt-3 text-xs text-slate-400 flex items-center justify-between">
+                        <span>🟢 Open shelters | 🔴 Closed shelters</span>
+                        <span>Click markers for details</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prepare Page -->
+        <div id="prepare" class="page">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-100 mb-2">Disaster Preparedness</h2>
+                <p class="text-slate-400">Essential information and supplies for emergency preparedness</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Emergency Kit -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-4 flex items-center">
+                        <i class="fa-solid fa-kit-medical mr-2 text-blue-400"></i>
+                        Emergency Kit Items
+                    </h3>
+                    <ul id="kit-list" class="space-y-2 text-slate-300"></ul>
+                </div>
+
+                <!-- Safety Instructions -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-4 flex items-center">
+                        <i class="fa-solid fa-list-check mr-2 text-green-400"></i>
+                        Safety Instructions
+                    </h3>
+                    <div id="instructions-container" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Respond Page -->
+        <div id="respond" class="page">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-100 mb-2">Emergency Response</h2>
+                <p class="text-slate-400">Immediate assistance and emergency alerts</p>
+            </div>
+
+            <!-- SOS Alert Form -->
+            <div class="bg-slate-800 rounded-xl p-6 shadow-lg mb-6">
+                <h3 class="text-xl font-semibold text-red-400 mb-4 flex items-center">
+                    <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+                    Send SOS Alert
+                </h3>
+                <p class="text-slate-400 mb-4 text-sm">⚠️ Only use this for real emergencies. Emergency services will be notified immediately.</p>
+                
+                <form id="sosForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="sosName" placeholder="Your full name" required
+                               class="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        <input type="tel" id="sosPhone" placeholder="Phone number" required
+                               class="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-400">
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <input type="text" id="sosLocation" placeholder="Your exact location or coordinates" required
+                               class="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        <button type="button" id="getLocationBtn" 
+                                class="px-4 py-3 bg-emerald-500 text-slate-900 rounded-lg hover:bg-emerald-600 transition font-medium">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </button>
+                    </div>
+                    
+                    <select id="sosEmergency" required
+                            class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        <option value="">Select emergency type</option>
+                        <option value="medical">Medical Emergency</option>
+                        <option value="fire">Fire</option>
+                        <option value="flood">Flood</option>
+                        <option value="earthquake">Earthquake</option>
+                        <option value="trapped">Trapped/Rescue Needed</option>
+                        <option value="other">Other Emergency</option>
+                    </select>
+                    
+                    <textarea id="sosMessage" placeholder="Describe your emergency situation..." required
+                              class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-400 h-24 resize-none"></textarea>
+                    
+                    <button type="submit" 
+                            class="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition font-semibold text-lg">
+                        🚨 SEND SOS ALERT
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Recovery Page -->
+        <div id="recovery" class="page">
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-100 mb-2">Disaster Recovery</h2>
+                <p class="text-slate-400">Post-disaster assistance and recovery resources</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Aid Request Form -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-4 flex items-center">
+                        <i class="fa-solid fa-hand-holding-heart mr-2 text-emerald-400"></i>
+                        Request Aid
+                    </h3>
+                    
+                    <form id="aidRequestForm" class="space-y-4">
+                        <input type="text" id="requesterName" placeholder="Your full name" required
+                               class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        
+                        <textarea id="locationDescription" placeholder="Describe your location in detail..." required
+                                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 h-24 resize-none"></textarea>
+                        
+                        <textarea id="aidNeeded" placeholder="What type of aid do you need? (food, water, shelter, medical, etc.)" required
+                                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 h-24 resize-none"></textarea>
+                        
+                        <button type="submit" 
+                                class="w-full bg-emerald-500 text-slate-900 py-3 rounded-lg hover:bg-emerald-600 transition font-semibold">
+                            Submit Aid Request
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recovery Organizations -->
+                <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-4 flex items-center">
+                        <i class="fa-solid fa-building mr-2 text-blue-400"></i>
+                        Recovery Organizations
+                    </h3>
+                    <div id="organizations-container" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loader" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-slate-800 p-6 rounded-lg text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400 mx-auto mb-4"></div>
+            <p class="text-slate-100">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Error/Success Message -->
+    <div id="error-message" class="fixed top-20 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 bg-red-500 text-white" style="display: none;"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    
+    <!-- Application JavaScript -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
