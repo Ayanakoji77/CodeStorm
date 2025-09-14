@@ -4,7 +4,7 @@ Aura is a mobile-first Progressive Web App (PWA) designed to empower communities
 
 This project was developed for the Climate Resilience Hack.
 
-**[Live Demo](https://www.google.com/search?q=https://your-project-name.onrender.com)** *(Link to your live Render deployment)*
+**[Live Demo](https://codestorm-frontend.onrender.com/)** *(Link to your live Render deployment)*
 
 -----
 
