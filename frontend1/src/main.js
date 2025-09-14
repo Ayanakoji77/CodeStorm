@@ -1,4 +1,3 @@
-// main.js - Enhanced with fixed import paths and better error handling
 import * as api from './api.js';
 import * as ui from './ui.js';
 import { initMap, addShelterMarkers, invalidateMapSize } from './modules/map.js';
@@ -469,3 +468,4 @@ window.ClimaAid = {
     loadPageData,
     showError
 };
+
