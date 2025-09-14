@@ -1,6 +1,6 @@
-# Aura: The Climate Resilience Hub 🌦️
+# ClimaAid: The Climate Resilience Hub 🌦️
 
-Aura is a mobile-first Progressive Web App (PWA) designed to empower communities to prepare for, respond to, and recover from climate-related disasters. With a focus on offline accessibility, Aura ensures that critical information is available even when network infrastructure fails, providing a vital lifeline for vulnerable populations during emergencies.
+ClimaAid is a mobile-first Progressive Web App (PWA) designed to empower communities to prepare for, respond to, and recover from climate-related disasters. With a focus on offline accessibility, Aura ensures that critical information is available even when network infrastructure fails, providing a vital lifeline for vulnerable populations during emergencies.
 
 This project was developed for the Climate Resilience Hack.
 
@@ -18,7 +18,7 @@ Aura bridges this gap by providing a reliable, offline-first platform for disast
 
 ## \#\# Features ✨
 
-Aura is structured around the three phases of disaster management:
+ClimaAid is structured around the three phases of disaster management:
 
 ### **Prepare**
 
